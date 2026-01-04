@@ -12,6 +12,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 // Create the client with the provided credentials or fallbacks to prevent runtime crashes
 // 'https://placeholder.supabase.co' is used to satisfy the URL requirement if the env var is missing
+// We explicitly check for empty strings to ensure the fallback is used
 export const supabase = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
   supabaseAnonKey || 'placeholder-key'

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, Lock, User, Loader2, AlertCircle } from 'lucide-react';
+import { Mail, Lock, User, Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 interface RegisterPageProps {
   onSwitchToLogin: () => void;
@@ -12,6 +12,8 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  
   const { register } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,6 +28,20 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
       setIsSubmitting(false);
     }
   };
+
+  const getPasswordStrength = (pass: string) => {
+    if (!pass) return 0;
+    let score = 0;
+    if (pass.length >= 8) score++;
+    if (/[A-Z]/.test(pass)) score++;
+    if (/[0-9]/.test(pass)) score++;
+    if (/[^A-Za-z0-9]/.test(pass)) score++;
+    return score;
+  };
+
+  const strength = getPasswordStrength(password);
+  const strengthLabels = ['Weak', 'Fair', 'Good', 'Strong', 'Excellent'];
+  const strengthColors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-blue-500', 'bg-green-500'];
 
   return (
     <div className="w-full max-w-md mx-auto p-6">
@@ -76,15 +92,42 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                className="w-full pl-10 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 placeholder="••••••••"
                 minLength={6}
               />
+               <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
             </div>
+            {/* Password Strength Indicator */}
+            {password && (
+              <div className="mt-2">
+                <div className="flex gap-1 h-1.5 mb-1.5">
+                   {[0, 1, 2, 3].map((level) => (
+                     <div 
+                        key={level} 
+                        className={`flex-1 rounded-full transition-all duration-300 ${strength > level ? strengthColors[strength] : 'bg-slate-100'}`}
+                     />
+                   ))}
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className={`font-medium ${strength > 0 ? 'text-slate-700' : 'text-slate-400'}`}>
+                    Strength: {strengthLabels[Math.min(strength, 4)]}
+                  </span>
+                  <span className="text-slate-400 hidden sm:inline">Use symbols, numbers & uppercase</span>
+                </div>
+              </div>
+            )}
           </div>
 
           <button

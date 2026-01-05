@@ -203,7 +203,7 @@ const App: React.FC = () => {
         <p className="text-slate-500 text-xs md:text-sm">
           Programmer, EMIS cell,{' '}
           <a 
-            href="https://www.dshe.gov.bd/" 
+            href="https://dshe.gov.bd/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-blue-600 hover:text-blue-800 underline decoration-blue-200 hover:decoration-blue-600 underline-offset-2 transition-colors"

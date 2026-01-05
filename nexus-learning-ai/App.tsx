@@ -316,7 +316,7 @@ const App: React.FC = () => {
           <div className="w-full max-w-4xl mx-auto">
             <div className="text-center mb-10 px-4">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
-                AI-Powered Learning Architect for Professionals & Institutions
+                AI-Powered Learning Architect for Professionals
               </h1>
               <p className="text-slate-600 max-w-2xl mx-auto text-center px-2 text-base sm:text-lg">
                 Join Nexus Learning Architect to build personalized, AI-driven curricula for advanced technologies.

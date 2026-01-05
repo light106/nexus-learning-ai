@@ -254,12 +254,12 @@ const App: React.FC = () => {
               )}
               
                <a 
-                 href="https://github.com" 
+                 href="https://www.facebook.com" 
                  target="_blank" 
                  rel="noopener noreferrer"
                  className="text-slate-500 hover:text-slate-900 transition-colors p-1"
                >
-                 <Github className="w-5 h-5" />
+                 <Facebook className="w-5 h-5" />
                </a>
 
               <div className="flex items-center gap-3 pl-3 sm:pl-6 border-l border-slate-200">

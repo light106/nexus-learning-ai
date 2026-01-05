@@ -17,7 +17,7 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
 
       <div className="prose prose-slate max-w-none">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Privacy Policy & Terms</h1>
-        <p className="text-slate-500 mb-8 font-mono text-sm">Last Updated: 26-Jan-2026</p>
+        <p className="text-slate-500 mb-8 font-mono text-sm">Last Updated: 5-Jan-2026</p>
 
         <section className="mb-10">
             <div className="flex items-center gap-3 mb-6 p-4 bg-blue-50/50 rounded-xl border border-blue-100">
@@ -70,7 +70,7 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
                 <h2 className="text-2xl font-bold text-slate-900 m-0">2. Terms of Service</h2>
             </div>
             
-            <p className="text-slate-500 mb-4 font-mono text-sm">Last Updated: 26-Jan-2026</p>
+            <p className="text-slate-500 mb-4 font-mono text-sm">Last Updated: 5-Jan-2026</p>
             <p className="text-slate-600 mb-6">By accessing Nexus Learning Architect, you agree to be bound by these Terms of Service.</p>
 
             <h3 className="text-lg font-bold text-slate-900 mb-3">1. Use of Service</h3>

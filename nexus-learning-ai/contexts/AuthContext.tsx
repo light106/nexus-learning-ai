@@ -8,6 +8,7 @@ interface AuthContextType {
   register: (name: string, email: string, pass: string) => Promise<void>;
   googleLogin: () => Promise<void>;
   logout: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -98,8 +99,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
   };
 
+  const resetPassword = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin,
+    });
+    if (error) throw error;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, googleLogin, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, register, googleLogin, logout, resetPassword, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

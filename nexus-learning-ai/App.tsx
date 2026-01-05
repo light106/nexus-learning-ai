@@ -4,6 +4,7 @@ import RoadmapTimeline from './components/RoadmapTimeline';
 import RoadmapStats from './components/RoadmapStats';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
+import PrivacyPolicy from './components/PrivacyPolicy';
 import { generateRoadmap } from './services/geminiService';
 import { RoadmapData, RoadmapRequest } from './types';
 import { BrainCircuit, Github, Download, LogOut, User as UserIcon, Loader2, Share2, FileDown, Check, Link as LinkIcon, UploadCloud } from 'lucide-react';
@@ -19,6 +20,7 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isRegistering, setIsRegistering] = useState(false);
+  const [view, setView] = useState<'MAIN' | 'PRIVACY'>('MAIN');
   
   // State for sharing & saving
   const [currentRequest, setCurrentRequest] = useState<RoadmapRequest | null>(null);
@@ -100,6 +102,7 @@ const App: React.FC = () => {
     setError(null);
     setCurrentRequest(null);
     setSaveSuccess(false);
+    setView('MAIN');
     // Clear URL params without reload
     window.history.pushState({}, '', window.location.pathname);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -185,7 +188,7 @@ const App: React.FC = () => {
 
   const Footer = () => (
     <footer className="border-t border-blue-100 bg-white py-8 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 text-center space-y-3">
+      <div className="max-w-7xl mx-auto px-4 text-center space-y-4">
         <p className="text-slate-600 font-medium text-sm md:text-base">
           Developed by{' '}
           <a 
@@ -200,7 +203,7 @@ const App: React.FC = () => {
         <p className="text-slate-500 text-xs md:text-sm">
           Programmer, EMIS cell,{' '}
           <a 
-            href="https://dshe.gov.bd/" 
+            href="https://www.dshe.gov.bd/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-blue-600 hover:text-blue-800 underline decoration-blue-200 hover:decoration-blue-600 underline-offset-2 transition-colors"
@@ -208,75 +211,37 @@ const App: React.FC = () => {
             DSHE
           </a>
         </p>
+        <div className="pt-2">
+            <button 
+                onClick={() => {
+                    setView('PRIVACY');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="text-xs text-slate-400 hover:text-blue-600 transition-colors font-medium"
+            >
+                Privacy Policy & Terms
+            </button>
+        </div>
       </div>
     </footer>
   );
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
-      </div>
-    );
-  }
+  const Navbar = () => (
+    <nav className="border-b border-blue-100 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          <button 
+            onClick={handleHomeClick}
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity focus:outline-none"
+            aria-label="Go to Home"
+          >
+            <BrainCircuit className="w-8 h-8 text-blue-600" />
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-cyan-600">
+              Nexus Learning
+            </span>
+          </button>
 
-  // Auth Layout (Login/Register)
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex flex-col font-sans overflow-x-hidden">
-        <nav className="border-b border-blue-100 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16 items-center">
-              <div className="flex items-center gap-2">
-                <BrainCircuit className="w-8 h-8 text-blue-600" />
-                <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-cyan-600">
-                  Nexus Learning
-                </span>
-              </div>
-            </div>
-          </div>
-        </nav>
-        <main className="flex-grow flex items-center justify-center p-4">
-          <div className="w-full">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
-                AI-Powered Learning Architect for Professionals
-              </h1>
-              <p className="text-slate-600 max-w-xl mx-auto text-justify px-2">
-                Join Nexus Learning Architect to build personalized, AI-driven learning path for advanced technologies.
-              </p>
-            </div>
-            {isRegistering ? (
-              <RegisterPage onSwitchToLogin={() => setIsRegistering(false)} />
-            ) : (
-              <LoginPage onSwitchToRegister={() => setIsRegistering(true)} />
-            )}
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  // Main App Layout (Authenticated)
-  return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans overflow-x-hidden">
-      {/* Navigation / Header */}
-      <nav className="border-b border-blue-100 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            {/* Home Button / Logo */}
-            <button 
-              onClick={handleHomeClick}
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity focus:outline-none"
-              aria-label="Go to Home"
-            >
-              <BrainCircuit className="w-8 h-8 text-blue-600" />
-              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-cyan-600">
-                Nexus Learning
-              </span>
-            </button>
-
+          {user && (
             <div className="flex items-center gap-4">
               {deferredPrompt && (
                 <button
@@ -318,24 +283,68 @@ const App: React.FC = () => {
                 </button>
               </div>
             </div>
-          </div>
+          )}
         </div>
-      </nav>
+      </div>
+    </nav>
+  );
 
-      {/* Main Content */}
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+      </div>
+    );
+  }
+
+  // Render Logic
+  const renderContent = () => {
+    if (view === 'PRIVACY') {
+      return (
+        <main className="flex-grow flex items-start justify-center p-4">
+          <PrivacyPolicy onBack={() => {
+            setView('MAIN');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }} />
+        </main>
+      );
+    }
+
+    if (!user) {
+      return (
+        <main className="flex-grow flex items-center justify-center p-4">
+          <div className="w-full">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
+                Master the Future
+              </h1>
+              <p className="text-slate-600 max-w-xl mx-auto text-justify px-2">
+                Join Nexus Learning Architect to build personalized, AI-driven curricula for advanced technologies.
+              </p>
+            </div>
+            {isRegistering ? (
+              <RegisterPage onSwitchToLogin={() => setIsRegistering(false)} />
+            ) : (
+              <LoginPage onSwitchToRegister={() => setIsRegistering(true)} />
+            )}
+          </div>
+        </main>
+      );
+    }
+
+    // Main App
+    return (
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        
-        {/* Header Text - Only show on Home */}
+        {/* Header Text - Only show on Home when no data */}
         {!roadmapData && !isLoading && (
           <div className="text-center mb-10 md:mb-16 animate-fade-in-up">
             <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
-              Design Your AI-Powered Learning Path
+              Master the Future of Tech
             </h1>
-            <p><i>Tailored to your goals, schedule, and experience level</i></p>
             <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
               Generate a personalized, AI-driven curriculum for your custom timeline covering 
               <strong> Cybersecurity, Generative AI, Digital Transformation, Nexus Tech</strong>, and more. 
-              We analyze your goals, time availability, and experience level to generate a structured, adaptive curriculum.
+              Structured learning, tailored to your pace.
             </p>
           </div>
         )}
@@ -425,7 +434,13 @@ const App: React.FC = () => {
           </div>
         )}
       </main>
+    );
+  };
 
+  return (
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans overflow-x-hidden">
+      <Navbar />
+      {renderContent()}
       <Footer />
     </div>
   );

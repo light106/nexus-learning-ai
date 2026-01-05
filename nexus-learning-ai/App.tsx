@@ -313,20 +313,22 @@ const App: React.FC = () => {
     if (!user) {
       return (
         <main className="flex-grow flex items-center justify-center p-4">
-          <div className="w-full">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
+          <div className="w-full max-w-4xl mx-auto">
+            <div className="text-center mb-10 px-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
                 AI-Powered Learning Architect for Professionals & Institutions
               </h1>
-              <p className="text-slate-600 max-w-xl mx-auto text-justify px-2">
-                Join Nexus Learning Architect to build personalized, AI-driven learning path for advanced technologies.
+              <p className="text-slate-600 max-w-2xl mx-auto text-center px-2 text-base sm:text-lg">
+                Join Nexus Learning Architect to build personalized, AI-driven curricula for advanced technologies.
               </p>
             </div>
-            {isRegistering ? (
-              <RegisterPage onSwitchToLogin={() => setIsRegistering(false)} />
-            ) : (
-              <LoginPage onSwitchToRegister={() => setIsRegistering(true)} />
-            )}
+            <div className="max-w-md mx-auto">
+              {isRegistering ? (
+                <RegisterPage onSwitchToLogin={() => setIsRegistering(false)} />
+              ) : (
+                <LoginPage onSwitchToRegister={() => setIsRegistering(true)} />
+              )}
+            </div>
           </div>
         </main>
       );
@@ -337,15 +339,15 @@ const App: React.FC = () => {
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* Header Text - Only show on Home when no data */}
         {!roadmapData && !isLoading && (
-          <div className="text-center mb-10 md:mb-16 animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
+          <div className="text-center mb-12 md:mb-16 animate-fade-in-up px-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
               Design Your AI-Powered Learning Path
             </h1>
-            <p><i>Tailored to your goals, schedule, and experience level</i></p>
-            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
-              Generate a personalized, AI-driven curriculum for your custom timeline covering 
-              <strong> Cybersecurity, Generative AI, Digital Transformation, Nexus Tech</strong>, and more. 
-              We analyze your goals, time availability, and experience level to generate a structured, adaptive curriculum.
+            <p className="text-lg sm:text-xl text-slate-500 italic mb-8 font-medium">
+              Tailored to your goals, schedule, and experience level
+            </p>
+            <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed text-center">
+              Generate a personalized, AI-driven curriculum for your custom timeline covering Cybersecurity, Generative AI, Digital Transformation, Nexus Tech, and more. We analyze your goals, time availability, and experience level to generate a structured, adaptive curriculum.
             </p>
           </div>
         )}

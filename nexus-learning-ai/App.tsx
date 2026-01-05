@@ -190,7 +190,7 @@ const App: React.FC = () => {
     <footer className="border-t border-blue-100 bg-white py-8 mt-auto">
       <div className="max-w-7xl mx-auto px-4 text-center space-y-4">
         <p className="text-slate-600 font-medium text-sm md:text-base">
-          Developed by{' '}
+          Copyright © 2026, Developed by{' '}
           <a 
             href="https://shadmansakib.onrender.com/" 
             target="_blank" 

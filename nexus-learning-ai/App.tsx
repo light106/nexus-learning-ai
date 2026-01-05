@@ -316,10 +316,10 @@ const App: React.FC = () => {
           <div className="w-full">
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
-                Master the Future
+                AI-Powered Learning Architect for Professionals & Institutions
               </h1>
               <p className="text-slate-600 max-w-xl mx-auto text-justify px-2">
-                Join Nexus Learning Architect to build personalized, AI-driven curricula for advanced technologies.
+                Join Nexus Learning Architect to build personalized, AI-driven learning path for advanced technologies.
               </p>
             </div>
             {isRegistering ? (
@@ -339,12 +339,13 @@ const App: React.FC = () => {
         {!roadmapData && !isLoading && (
           <div className="text-center mb-10 md:mb-16 animate-fade-in-up">
             <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
-              Master the Future of Tech
+              Design Your AI-Powered Learning Path
             </h1>
+            <p><i>Tailored to your goals, schedule, and experience level</i></p>
             <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
               Generate a personalized, AI-driven curriculum for your custom timeline covering 
               <strong> Cybersecurity, Generative AI, Digital Transformation, Nexus Tech</strong>, and more. 
-              Structured learning, tailored to your pace.
+              We analyze your goals, time availability, and experience level to generate a structured, adaptive curriculum.
             </p>
           </div>
         )}

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nexus-learning-v11';
+const CACHE_NAME = 'nexus-learning-v12';
 const urlsToCache = [
   '/',
   '/index.html',

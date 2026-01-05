@@ -171,7 +171,7 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading, initialValue
             </>
           ) : (
             <>
-              {initialValues ? 'Generate Shared Path' : 'Initialize Protocol'} <Sparkles className="w-5 h-5" />
+              {initialValues ? 'Generate Shared Path' : 'Generate My Learning Path'} <Sparkles className="w-5 h-5" />
             </>
           )}
         </button>

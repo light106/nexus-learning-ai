@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nexus-learning.vercel.app/sitemap.xml
+Sitemap: https://nexuslearningai.vercel.app/sitemap.xml

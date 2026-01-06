@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import InputForm from './components/InputForm';
-import RoadmapTimeline from './components/RoadmapTimeline';
-import RoadmapStats from './components/RoadmapStats';
-import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
-import PrivacyPolicy from './components/PrivacyPolicy';
 import { generateRoadmap } from './services/geminiService';
 import { RoadmapData, RoadmapRequest } from './types';
 import { BrainCircuit, Github, Download, LogOut, User as UserIcon, Loader2, Share2, FileDown, Check, Link as LinkIcon, UploadCloud } from 'lucide-react';
@@ -12,6 +7,13 @@ import { useAuth } from './contexts/AuthContext';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { supabase } from './lib/supabase';
+
+// Lazy load heavy components for Performance (Core Web Vitals)
+const RoadmapTimeline = React.lazy(() => import('./components/RoadmapTimeline'));
+const RoadmapStats = React.lazy(() => import('./components/RoadmapStats'));
+const PrivacyPolicy = React.lazy(() => import('./components/PrivacyPolicy'));
+const LoginPage = React.lazy(() => import('./components/LoginPage'));
+const RegisterPage = React.lazy(() => import('./components/RegisterPage'));
 
 const App: React.FC = () => {
   const { user, logout, isLoading: authLoading } = useAuth();
@@ -28,6 +30,15 @@ const App: React.FC = () => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // SEO: Update Title based on View
+  useEffect(() => {
+    if (view === 'PRIVACY') {
+      document.title = "Privacy Policy - Nexus Learning AI";
+    } else {
+      document.title = "Nexus Learning AI | Personalized AI Learning Platform for Professionals";
+    }
+  }, [view]);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: any) => {
@@ -190,7 +201,7 @@ const App: React.FC = () => {
     <footer className="border-t border-blue-100 bg-white py-8 mt-auto">
       <div className="max-w-7xl mx-auto px-4 text-center space-y-4">
         <p className="text-slate-600 font-medium text-sm md:text-base">
-          Copyright © 2026, Developed by{' '}
+          Developed by{' '}
           <a 
             href="https://shadmansakib.onrender.com/" 
             target="_blank" 
@@ -297,15 +308,24 @@ const App: React.FC = () => {
     );
   }
 
+  // Loading Fallback Component
+  const PageLoader = () => (
+    <div className="w-full h-64 flex items-center justify-center">
+       <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+    </div>
+  );
+
   // Render Logic
   const renderContent = () => {
     if (view === 'PRIVACY') {
       return (
         <main className="flex-grow flex items-start justify-center p-4">
-          <PrivacyPolicy onBack={() => {
-            setView('MAIN');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }} />
+          <Suspense fallback={<PageLoader />}>
+            <PrivacyPolicy onBack={() => {
+              setView('MAIN');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }} />
+          </Suspense>
         </main>
       );
     }
@@ -316,18 +336,20 @@ const App: React.FC = () => {
           <div className="w-full max-w-4xl mx-auto">
             <div className="text-center mb-10 px-4">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
-                AI-Powered Learning Architect for Professionals
+                AI-Powered Learning Architect for Professionals & Institutions
               </h1>
               <p className="text-slate-600 max-w-2xl mx-auto text-center px-2 text-base sm:text-lg">
                 Join Nexus Learning Architect to build personalized, AI-driven curricula for advanced technologies.
               </p>
             </div>
             <div className="max-w-md mx-auto">
-              {isRegistering ? (
-                <RegisterPage onSwitchToLogin={() => setIsRegistering(false)} />
-              ) : (
-                <LoginPage onSwitchToRegister={() => setIsRegistering(true)} />
-              )}
+               <Suspense fallback={<PageLoader />}>
+                {isRegistering ? (
+                  <RegisterPage onSwitchToLogin={() => setIsRegistering(false)} />
+                ) : (
+                  <LoginPage onSwitchToRegister={() => setIsRegistering(true)} />
+                )}
+              </Suspense>
             </div>
           </div>
         </main>
@@ -424,14 +446,16 @@ const App: React.FC = () => {
             
             {/* ID for PDF capture */}
             <div id="roadmap-content" className="bg-slate-50 p-4 md:p-6 -m-2 md:-m-4 rounded-xl">
-              <RoadmapStats items={roadmapData.items} totalHours={roadmapData.totalHours} />
-              
-              <div className="mt-8 md:mt-12">
-                <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-8 pl-4 border-l-4 border-blue-600">
-                  Curriculum Timeline
-                </h3>
-                <RoadmapTimeline items={roadmapData.items} />
-              </div>
+               <Suspense fallback={<PageLoader />}>
+                  <RoadmapStats items={roadmapData.items} totalHours={roadmapData.totalHours} />
+                  
+                  <div className="mt-8 md:mt-12">
+                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-8 pl-4 border-l-4 border-blue-600">
+                      Curriculum Timeline
+                    </h3>
+                    <RoadmapTimeline items={roadmapData.items} />
+                  </div>
+               </Suspense>
             </div>
 
           </div>
